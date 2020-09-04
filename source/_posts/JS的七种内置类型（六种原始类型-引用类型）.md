@@ -1,6 +1,6 @@
 title: JS的七种内置类型（六种原始类型+引用类型）
 author: John Doe
-date: 2020-08-26 12:02:17
+date: 2018-01-26 12:02:17
 tags:
 ---
 #### 六种原始类型（Primitive）
