@@ -147,19 +147,21 @@ console.log('外层 i：', i);
 ```
 
 {% spoiler "答案" %}
-作用域
-console.log('外层 i：', i); // -> 外层 i： 5
-一秒后执行：
-console.log('循环 i：', i); // -> 循环 i： 5  (打印55555)
+```
+  作用域
+  console.log('外层 i：', i); // -> 外层 i： 5
+  一秒后执行：
+  console.log('循环 i：', i); // -> 循环 i： 5  (打印55555)
 
-// 传入变量j
-for (var i = 0; i < 5; i++) {
-    (function (j) {
-        setTimeout(function () {
-            console.log('循环 i：', i, j); // 50 51 52 53 54
-        }, 1000);
-    })(i)
-}
+  // 传入变量j
+  for (var i = 0; i < 5; i++) {
+      (function (j) {
+          setTimeout(function () {
+              console.log('循环 i：', i, j); // 50 51 52 53 54
+          }, 1000);
+      })(i)
+  }
+```
 {% endspoiler %}
 
 - 第8题
