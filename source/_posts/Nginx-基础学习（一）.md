@@ -8,6 +8,7 @@ tags:
 >**安装Openresty(建议使用Openresty)**
  
  ```bash
+ $ yum install readline-devel pcre-devel openssl-devel gcc #安装依赖库
  $ sudo yum install yum-utils
  $ sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
  $ sudo yum install openresty
@@ -91,7 +92,7 @@ $ chmod 700 logs
 $ nginx -h
 
 ## 启动Nginx服务器
-$ sudo nginx
+$ nginx
 
 ## 查看进程
 $ ps aux | grep nginx
@@ -100,19 +101,19 @@ $ ps aux | grep nginx
 $ /usr/local/nginx/conf/nginx.conf
 
 ## 检查配置文件
-$ sudo nginx -t
+$ nginx -t
 
 ## 指定启动配置文件
-$ sudo nginx -c /usr/local/nginx/conf/nginx.conf
+$ nginx -c /usr/local/nginx/conf/nginx.conf
 
 ## 暴力停止服务
-$ sudo nginx -s stop
+$ nginx -s stop
 
 ## 优雅停止服务
-$ sudo nginx -s quit
+$ nginx -s quit
 
 ## 重新加载配置文件
-$ sudo nginx -s reload
+$ nginx -s reload
 ```
 
 >Nginx 的优势

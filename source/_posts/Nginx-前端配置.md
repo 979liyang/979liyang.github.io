@@ -3,6 +3,8 @@ author: liyang
 date: 2020-09-07 14:54:03
 tags:
 ---
+#### location匹配规则
+
 #### history与hash配置的区别
 
 - history模式配置
@@ -15,7 +17,7 @@ location   /  {
 }
 ```
 
-- hash模式配置
+- hash模式配置,hash模式不需要try_files
 
 ```bash
 location   /  {
@@ -41,6 +43,37 @@ location   /test/  {
 }
 ```
 
+#### 配置简易前端nginx
+
+- history模式访问跟路径 '/' 且资源路径为 /data/app/dist
+- history模式访问二级路径 '/admin' 且资源路径为 /data//dist
+- 访问静态资源且资源路径为/data/app/dist/static
+
+```bash
+server {
+    listen       80;
+    server_name  localhost;
+
+    #匹配前端项目
+    location / {
+        root   /data/app/dist/;
+        try_files $uri $uri/ /index.html;
+    }
+
+    #匹配static静态资源
+    location ^~ /static/ {
+        alias /data/app/dist/static/;
+    }
+ 
+    #匹配后台管理系统
+    location ^~ /admin/ {
+        alias   /data/admin/dist/;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
 #### 开启Gzip
 
 - 纯文本(css、js、xml、html)来说可以压缩到原大小的30%甚至更多，可以节省大量的带宽。
@@ -50,7 +83,7 @@ location   /test/  {
 - 提供更好的用户体验，但是消耗一定的cpu资源
 - response header头信息中出现"Conten_Encoding: gzip" , 就说明Nginx已开启了压缩
 
-#### 参数配置
+#### 参数配置Gzip
 
 ```bash
 gzip on;                 
@@ -89,7 +122,9 @@ gzip_disable msie6;
 # (IE5.5和IE6 SP1使用msie6参数来禁止gzip压缩 )指定哪些不需要gzip压缩的浏览器(将和User-Agents进行匹配),依赖于PCRE库
 ```
 
-#### 常用配置
+
+#### 常用配置Gzip
+
 ```bash
 location ~ .*\. (jpg|png|gif)$ {
     gzip off;
@@ -109,3 +144,67 @@ location ~ .*\. (html|js|css)$ {
     root /data/www/html;
 }
 ```
+
+#### 负载均衡
+
+```bash
+
+http {
+  # upstream 指定后端服务器地址
+  # weight 设置权重
+  # server 中会将 http://server-name 的请求转发到 upstream 池中
+  upstream server-name {
+      server 127.0.0.1:9010 weight=10;
+      server 127.0.0.1:9011 weight=2;
+      server 127.0.0.1:9012;
+      server 127.0.0.1:9013;
+      server 127.0.0.1:9014;
+  }
+  
+  server {
+  	listen 80;
+  	location / {
+        #均衡哪个服务
+    	proxy_pass http://server-name;
+    }
+  }
+}
+
+```
+
+#### 访问控制
+
+- 关于访问控制主要有两种类型：
+	- -http_access_module 基于 IP 的访问控制
+	- -http_auth_basic_module 基于用户的信任登陆(基于用户的信任登陆不是很安全，本文不做配置介绍)
+
+以下是基于 IP 的访问控制：
+
+```bash
+server {
+  location ~ ^/index.html {
+    # 匹配 index.html 页面 除了 127.0.0.1 以外都可以访问
+    deny 127.0.0.1;
+    allow all;
+  }
+}
+
+```
+
+#### 防盗链
+
+防盗链的原理就是根据请求头中 referer 得到网页来源，从而实现访问控制。这样可以防止网站资源被非法盗用，从而保证信息安全，减少带宽损耗，减轻服务器压力。
+
+```bash
+location ~ .*\.(jpg|png|gif)$ { # 匹配防盗链资源的文件类型
+    # 通过 valid_referers 定义合法的地址白名单 $invalid_referer 不合法的返回403  
+    valid_referers none blocked 127.0.0.1;
+    if ($invalid_referer) {
+        return 403;
+    }
+}
+```
+
+#### 请求限制
+
+#### 心跳检测
