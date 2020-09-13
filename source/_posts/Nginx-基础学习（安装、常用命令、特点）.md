@@ -1,6 +1,6 @@
-title: 'Nginx 基础学习（安装、常用命令、特点） '
+title: 'Nginx-基础学习（安装、常用命令、特点）'
 author: liyang
-date: 2020-09-07 11:07:30
+date: 2018-04-10 22:07:30
 tags:
 ---
 #### 安装
@@ -8,7 +8,7 @@ tags:
 >**安装Openresty(建议使用Openresty)**
  
  ```bash
- $ yum install readline-devel pcre-devel openssl-devel gcc #安装依赖库
+ *** $ yum install readline-devel pcre-devel openssl-devel gcc #安装依赖库 ***
  $ sudo yum install yum-utils
  $ sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
  $ sudo yum install openresty

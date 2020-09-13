@@ -1,7 +1,7 @@
-title: JS的类型转换
+title: JS基础-类型转换
 author: John Doe
-date: 2018-01-24 15:29:00
-tags:
+date: 2018-01-24 19:29:00
+tags: JS基础
 ---
 首先,在 JS 中类型转换只有三种情况，分别是：
 - 转换为布尔值

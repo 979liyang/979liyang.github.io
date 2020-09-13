@@ -1,6 +1,6 @@
 title: Nginx 前端配置
 author: liyang
-date: 2020-09-07 14:54:03
+date: 2018-04-25 23:54:03
 tags:
 ---
 #### location匹配规则
