@@ -1,7 +1,7 @@
 title: Nginx 前端配置
 author: liyang
-date: 2018-04-25 23:54:03
-tags:
+date: 2018-04-12 23:54:03
+tags: Nginx
 ---
 #### location匹配规则
 

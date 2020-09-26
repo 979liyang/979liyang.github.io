@@ -1,7 +1,7 @@
 title: JS基础-七种内置类型（六种原始类型+引用类型）
 author: John Doe
 date: 2018-01-26 22:02:17
-tags:
+tags: JS基础
 ---
 #### 六种原始类型（Primitive）
 

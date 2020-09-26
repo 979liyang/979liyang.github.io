@@ -1,14 +1,12 @@
-title: 'Nginx-基础学习（安装、常用命令、特点）'
+title: Nginx 安装、常用命令、特点
 author: liyang
 date: 2018-04-10 22:07:30
-tags:
+tags: Nginx
 ---
-#### 安装
-
->**安装Openresty(建议使用Openresty)**
+#### 安装方法（一）**Openresty 推荐**
  
  ```bash
- *** $ yum install readline-devel pcre-devel openssl-devel gcc #安装依赖库 ***
+ *** 
  $ sudo yum install yum-utils
  $ sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
  $ sudo yum install openresty
@@ -28,7 +26,7 @@ tags:
  
  ---
  
->安装Nginx
+#### 安装方法（二）Nginx 压缩包安装
 
 >>在安装nginx前首先要确认系统中安装 **`gcc、pcre-devel、zlib-devel、openssl-devel`**。
 
@@ -85,7 +83,7 @@ $ chmod 700 logs
  
 ---
 
->Nginx常用命令
+#### Nginx常用命令
 
 ```bash
 ## 帮助命令
@@ -116,7 +114,7 @@ $ nginx -s quit
 $ nginx -s reload
 ```
 
->Nginx 的优势
+#### Nginx 的优势
  
  * 高并发高性能
  * 可扩展性高
@@ -124,7 +122,7 @@ $ nginx -s reload
  * 热部署
  * 开源许可证
  
->Nginx 主要的应用场景
+#### Nginx 主要的应用场景
  
  * 静态资源服务，通过本地文件系统提供服务
  * 反向代理服务、负载均衡

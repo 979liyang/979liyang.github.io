@@ -1,5 +1,241 @@
 title: JS基础-闭包
 author: liyang
-date: 2018-04-13 10:53:00
 tags: JS基础
+date: 2018-04-13 10:53:00
 ---
+#### 闭包
+
+- 当函数可以记住并访问所在词法作用域时就产生了闭包。
+- 在定时器、事件监听器、Ajax请求、跨窗口通信、Web Workers 或者任何其他的异步（或者同步）任务中，只要用了回调函数，实际上就是在使用闭包。
+- IIFE模式不是闭包
+	- 不是在它本身的词法作用域外执行的，它在定义时坐在的作用域中执行。
+    - IIFE是最常见来用创建可以被封闭起来的作用域闭包的工具。
+
+#### 优缺点
+
+- 减少全局变量，增加局部变量寿命，函数里的变量保存在内存中。
+- 闭包会创建作用域，占用内存，可能内存泄漏
+- this 指向问题
+
+#### IIFE返回的闭包
+
+```js
+var foo = (() => {
+    let i = 0;
+    return () => {
+        console.log(i);
+        return i++;
+    }
+})();
+
+foo(); // -> 0
+foo(); // -> 1
+foo(); // -> 2
+```
+
+#### 普通闭包
+
+```js
+var foo = () => {
+    let i = 0;
+    return () => {
+        console.log(i);
+        return i++;
+    }
+};
+
+let a = foo();
+a(); // -> 0
+a(); // -> 1
+a(); // -> 2
+
+let b = foo();
+b(); // -> 0
+```
+
+#### for循环
+
+```js
+var arr = [1, 2, 3];
+var obj = {}
+var foo = (function () {
+    var a = 2;
+    for (var i = 0; i < arr.length; i++) {
+        obj[i] = function () {
+            console.log(i++, a);
+        }
+    }
+    // 局部变量i
+    console.log(i); // -> 3 
+})();
+
+var f0 = obj[0];
+var f1 = obj[1];
+var f2 = obj[2];
+
+f0(); // -> 3 2
+f1(); // -> 4 2
+f2(); // -> 5 2
+```
+
+- 使用let
+
+```js
+var arr = [1, 2, 3];
+var obj = {}
+var foo = (function () {
+    for (let i = 0; i < arr.length; i++) {
+        obj[i] = function () {
+            console.log(i++);
+        }
+    }
+})();
+
+var f0 = obj[0];
+var f1 = obj[1];
+var f2 = obj[2];
+
+f0(); // -> 0
+f0(); // -> 1
+f1(); // -> 1
+f1(); // -> 2
+f2(); // -> 2
+f2(); // -> 3
+```
+
+- 使用闭包
+
+```js
+var arr = [1, 2, 3];
+var obj = {}
+var foo = (function () {
+    for (var i = 0; i < arr.length; i++) {
+        ((i) => {
+            obj[i] = function () {
+                console.log(i++);
+            }
+        })(i)
+    }
+})();
+
+var f0 = obj[0];
+var f1 = obj[1];
+var f2 = obj[2];
+
+f0(); // -> 0
+f0(); // -> 1
+f1(); // -> 1
+f1(); // -> 2
+f2(); // -> 2
+f2(); // -> 3
+```
+
+#### for循环+setTimeout
+
+- 延迟函数的回调在循环结束时才会执行。
+
+```js
+for (var i = 1; i <= 5; i++) {
+    setTimeout(function timer() {
+        console.log(i); // => 5 个 6
+    }, 1000 * i)
+}
+
+```
+
+- IIFE创造作用域，IFEE是空作用域，它需要有自己的变量，用来在每个迭代中存储i的值。
+
+```js
+for (var i = 1; i <= 5; i++) {
+    (function () {
+        setTimeout(function timer() {
+            console.log(i); // => 5 个 6
+        }, 1000 * i)
+    })();
+}
+
+for (var i = 1; i <= 5; i++) {
+    (function () {
+        var j = i;
+        setTimeout(function timer() {
+            console.log(j); // => 1 2 3 4 5
+        }, 1000 * j)
+    })();
+}
+```
+
+- IFEE会在每个迭代都生成一个新的作用域，使得延迟函数的回调可以将新的作用域封闭在每个迭代内部。
+
+```js
+for (var i = 1; i <= 5; i++) {
+    (function (i) {
+        setTimeout(function timer() {
+            console.log(i); // => 1 2 3 4 5
+        }, 1000 * i)
+    })(i);
+}
+```
+
+#### 块作用域和闭包联手
+
+```js
+for (var i = 1; i <= 5; i++) {
+    let j = i; // 闭包的块作用域
+    setTimeout(function timer() {
+        console.log(j); // => 1 2 3 4 5
+    }, 1000 * j)
+}
+
+
+for (let i = 1; i <= 5; i++) {
+    setTimeout(function timer() {
+        console.log(i); // => 1 2 3 4 5
+    }, 1000 * i)
+}
+
+```
+
+#### 单例模式vs闭包单例模式
+
+- 单例模式
+
+```js
+var Singleton = function(name) {
+    this.name = name;
+    this.instance = null;
+}
+Singleton.getInstance = function(name) {
+    if(!this.instance) {
+        this.instance = new Singleton(name);
+    }
+    return this.instance;
+}
+var a = Singleton.getInstance('one');
+var b = Singleton.getInstance('two');
+// 指向的是唯一实例化的对象
+console.log(a === b); // -> true
+```
+
+- 闭包单例
+
+```js
+var Singleton = function (name) {
+    this.name = name;
+}
+Singleton.getInstance = (function () {
+    let instance = null;
+    return function (name) {
+        if (!instance) {
+            instance = new Singleton(name);
+            return instance;
+        }
+        return instance;
+    }
+})()
+
+var a = Singleton.getInstance('one');
+var b = Singleton.getInstance('two');
+
+// 指向的是唯一实例化的对象
+console.log(a === b); // => true
+```

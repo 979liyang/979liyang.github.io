@@ -1,7 +1,7 @@
 title: Nginx 反向代理
 author: liyang
-date: 2018-05-07 21:34:58
-tags:
+date: 2018-04-11 21:34:58
+tags: Nginx
 ---
 #### 代理
 

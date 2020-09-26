@@ -1,7 +1,7 @@
-title: JS的深拷贝浅拷贝
+title: JS基础-深拷贝浅拷贝
 author: John Doe
 date: 2018-02-03 16:28:28
-tags: JS
+tags: JS基础
 ---
 #### 浅拷贝
 
