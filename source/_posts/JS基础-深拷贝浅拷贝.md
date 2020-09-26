@@ -1,5 +1,5 @@
 title: JS基础-深拷贝浅拷贝
-author: John Doe
+author: liyang
 date: 2018-02-03 16:28:28
 tags: JS基础
 ---

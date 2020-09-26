@@ -1,5 +1,5 @@
 title: JS基础-类型转换
-author: John Doe
+author: liyang
 date: 2018-01-24 19:29:00
 tags: JS基础
 ---
