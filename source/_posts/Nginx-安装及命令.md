@@ -1,4 +1,4 @@
-title: Nginx 安装、常用命令、特点
+title: 安装及命令
 author: liyang
 date: 2018-04-10 22:07:30
 tags: Nginx

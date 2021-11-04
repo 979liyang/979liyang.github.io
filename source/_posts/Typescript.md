@@ -1,7 +1,7 @@
 title: Typescript
 author: liyang
 date: 2020-09-15 16:35:20
-tags:
+tags: Typescript
 ---
 #### 基础语法
 
